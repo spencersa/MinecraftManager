@@ -1,0 +1,21 @@
+﻿<h1>Server Prop</h1>
+<p>This component demonstrates fetching data from the server.</p>
+<!--<div *ngFor="let prop of testString">{{prop.property}} {{prop.value}}</div>-->
+<div class="col-sm-6">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let prop of testString">
+                <td>{{prop.property}}</td>
+                <td>{{prop.value}}</td>
+                <td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
