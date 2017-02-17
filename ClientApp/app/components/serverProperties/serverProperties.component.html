@@ -11,10 +11,21 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let prop of testString">
+            <tr *ngFor="let prop of serverProperty">
                 <td>{{prop.property}}</td>
-                <td>{{prop.value}}</td>
-                <td><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                <td *ngIf="!prop.isEditingRow">{{prop.value}}</td>
+                <td *ngIf="prop.isEditingRow">
+                    <form (ngSubmit)="submitEdit(prop)">
+                        <div class="input-group">
+                            <input class="form-control" [(ngModel)]="prop.value" name="value" id="value" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+                            </span>
+                        </div>
+                        
+                    </form>
+                </td>
+                <td style="cursor: pointer" (click)="editRow(prop)"><i class="fa fa-pencil" aria-hidden="true"></i></td>
             </tr>
         </tbody>
     </table>

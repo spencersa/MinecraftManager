@@ -6,23 +6,26 @@ using System.Threading;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using MinecraftManager.Models;
 
 namespace MinecraftManager.Controllers
 {
+    //TODO: make file path configurable
     [Route("api/[controller]")]
     public class ServerPropertiesController : Controller
     {
         [HttpGet("[action]")]
-        public async Task<IEnumerable<TestString>> GetServerPropertiesFile()
+        public async Task<IEnumerable<ServerProperty>> GetServerPropertiesFile()
         {
-            var returnValue = new List<TestString>();
+            var returnValue = new List<ServerProperty>();
             var fileData = await FileReaderWriter.ReadAllLinesAsync("C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server\\server.properties");
             foreach (var data in fileData)
             {
                 var index = data.IndexOf('=');
                 if (index != -1)
                 {
-                    returnValue.Add(new TestString {
+                    returnValue.Add(new ServerProperty
+                    {
                         Property = data.Substring(0, index),
                         Value = data.Substring(index + 1)
                     });
@@ -31,26 +34,24 @@ namespace MinecraftManager.Controllers
             return returnValue;
         }
 
-        [HttpGet("[action]")]
-        public async Task<bool> UpdateServerProperties(List<TestString> serverProperties)
+        [HttpPost("[action]")]
+        public async Task<bool> UpdateServerProperties([FromBody] ServerProperty property)
         {
-            var returnValue = new List<TestString>();
+            List<ServerProperty> serverProperties = new List<ServerProperty>();
+            var returnValue = new List<ServerProperty>();
             var currentFileLines = await GetServerPropertiesFile();
 
-            foreach (var newProperty in serverProperties)
-            {
-                foreach(var currentProperty in currentFileLines)
+                foreach (var currentProperty in currentFileLines)
                 {
-                    if (currentProperty.Property == newProperty.Property && currentProperty.Value != newProperty.Value)
+                    if (currentProperty.Property == property.Property && currentProperty.Value != property.Value)
                     {
-                        currentProperty.Value = newProperty.Value;
-                    }  
+                        currentProperty.Value = property.Value;
+                    }
                 }
-            }
             return await FileReaderWriter.WriteFileAsync("C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server\\server.properties", ToStringList(currentFileLines.ToList()));
         }
 
-        private List<string> ToStringList(List<TestString> list)
+        private List<string> ToStringList(List<ServerProperty> list)
         {
             var returnList = new List<string>();
             foreach (var testString in list)
@@ -58,12 +59,6 @@ namespace MinecraftManager.Controllers
                 returnList.Add($"{testString.Property}={testString.Value}");
             }
             return returnList;
-        }
-
-        public class TestString
-        {
-            public string Property { get; set; }
-            public string Value { get; set; }
         }
     }
 }
