@@ -1,21 +1,41 @@
 ﻿import { Component } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
 @Component({
     selector: 'server-properties',
     template: require('./serverProperties.component.html')
 })
 export class ServerPropertiesComponent {
-    public testString: TestString;
-
-    constructor(http: Http) {
-        http.get('/api/ServerProperties/GetServerPropertiesFile').subscribe(result => {
-            this.testString = result.json();
+    public serverProperty: Array<ServerProperty>;
+    public bullshit: String;
+    public http: Http;
+    constructor(_http: Http) {
+        this.http = _http;
+        this.http.get('/api/ServerProperties/GetServerPropertiesFile').subscribe(result => {
+            this.serverProperty = result.json();
         });
+    }
+
+    public editRow(property: ServerProperty) {
+        property.isEditingRow = true;
+    }
+
+    public submitEdit(property: ServerProperty) {
+        debugger;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let body = JSON.stringify(property);
+        this.http.post('/api/ServerProperties/UpdateServerProperties', body, {
+            headers: headers
+        })
+            .subscribe(
+            err => console.log("do nothing"),
+            () => console.log('Update Complete')
+            );
     }
 }
 
-interface TestString {
-    Property: string;
-    Value: string;
+interface ServerProperty {
+    property: string;
+    value: string;
+    isEditingRow: boolean;
 }
