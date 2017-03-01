@@ -18,18 +18,25 @@ export class ServerPropertiesComponent {
 
     public editRow(property: ServerProperty) {
         property.isEditingRow = true;
+        property.initialValue = property.value;
+    }
+
+    public cancelEdit(property: ServerProperty) {
+        property.isEditingRow = false;
+        property.value = property.initialValue;
     }
 
     public submitEdit(property: ServerProperty) {
-        debugger;
+        debugger
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let body = JSON.stringify(property);
         this.http.post('/api/ServerProperties/UpdateServerProperties', body, {
             headers: headers
         })
             .subscribe(
-            err => console.log("do nothing"),
-            () => console.log('Update Complete')
+                data => console.log(data),
+                err => console.log("TODO: add error logging"),
+                () => property.isEditingRow = false
             );
     }
 }
@@ -37,5 +44,6 @@ export class ServerPropertiesComponent {
 interface ServerProperty {
     property: string;
     value: string;
+    initialValue: string;
     isEditingRow: boolean;
 }

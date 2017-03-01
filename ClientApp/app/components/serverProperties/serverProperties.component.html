@@ -1,6 +1,4 @@
-﻿<h1>Server Prop</h1>
-<p>This component demonstrates fetching data from the server.</p>
-<!--<div *ngFor="let prop of testString">{{prop.property}} {{prop.value}}</div>-->
+﻿<h1>Server Properties</h1>
 <div class="col-sm-6">
     <table class="table">
         <thead>
@@ -20,12 +18,12 @@
                             <input class="form-control" [(ngModel)]="prop.value" name="value" id="value" />
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit"><i class="fa fa-check" aria-hidden="true"></i></button>
+                                <button class="btn btn-default" type="button" (click)="cancelEdit(prop)"><i class="fa fa-times" aria-hidden="true"></i></button>
                             </span>
-                        </div>
-                        
+                        </div>      
                     </form>
                 </td>
-                <td style="cursor: pointer" (click)="editRow(prop)"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+                <td style="cursor: pointer"  (click)="editRow(prop)"><i [ngClass]="{'fa fa-pencil': !prop.isEditingRow }" aria-hidden="true"></i></td>
             </tr>
         </tbody>
     </table>
