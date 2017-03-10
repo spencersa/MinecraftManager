@@ -7,7 +7,6 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 })
 export class ServerPropertiesComponent {
     public serverProperty: Array<ServerProperty>;
-    public bullshit: String;
     public http: Http;
     constructor(_http: Http) {
         this.http = _http;
