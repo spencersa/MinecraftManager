@@ -12,9 +12,14 @@ export class HomeComponent {
     }
 
     public startServer() {
-        debugger;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         this.http.get('/api/Server/Start').subscribe(result => {
+        });
+    }
+
+    public stopServer() {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        this.http.get('/api/Server/Stop').subscribe(result => {
         });
     }
 }
