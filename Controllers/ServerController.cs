@@ -15,9 +15,9 @@ namespace MinecraftManager.Controllers
         string serverFile = "minecraft_server.1.11.2.jar";
 
         private readonly MinecraftServerControls _serverControl;
-        public ServerController()
+        public ServerController(MinecraftServerControls serverControl)
         {
-            _serverControl = new MinecraftServerControls();
+            _serverControl = serverControl;
         }
 
         [HttpGet("[action]")]
