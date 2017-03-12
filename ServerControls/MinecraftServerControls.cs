@@ -10,14 +10,13 @@ namespace MinecraftManager.ServerControls
     public class MinecraftServerControls
     {
         //TODO: Add class for server arguments
-        //TODO: make class not static
-        public static Process _process;
-        public static StreamWriter _writer;
-        private static int processId;
+        private Process _process;
+        private StreamWriter _writer;
+        private StreamReader _output;
+        private int processId;
 
         public MinecraftServerControls()
         {
-
         }
 
         public void StartServer(string serverFile, string serverPath)
@@ -33,16 +32,21 @@ namespace MinecraftManager.ServerControls
             _writer = _process.StandardInput;
             processId = _process.Id;
             _process.OutputDataReceived += new DataReceivedEventHandler(SortOutputHandler);
+            _process.BeginOutputReadLine();
+            _process.BeginErrorReadLine();
+            _process.WaitForExit();
         }
 
         void SortOutputHandler(object sender, DataReceivedEventArgs e)
         {
-
+            Console.WriteLine(e.Data);
         }
 
-        public void StopServer()
+        private void SendCommand(string command)
         {
-            _writer.WriteLine("stop");
+            _writer.WriteLine(command);
         }
+
+        public void StopServer() => SendCommand("stop");
     }
 }
