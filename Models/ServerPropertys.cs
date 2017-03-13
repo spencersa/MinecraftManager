@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MinecraftManager.Models
 {
-    public class ServerProperty
+    public class ServerPropertys
     {
         public string Property { get; set; }
         public string Value { get; set; }

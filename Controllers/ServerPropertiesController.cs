@@ -15,16 +15,16 @@ namespace MinecraftManager.Controllers
     public class ServerPropertiesController : Controller
     {
         [HttpGet("[action]")]
-        public async Task<IEnumerable<ServerProperty>> GetServerPropertiesFile()
+        public async Task<IEnumerable<ServerPropertys>> GetServerPropertiesFile()
         {
-            var returnValue = new List<ServerProperty>();
+            var returnValue = new List<ServerPropertys>();
             var fileData = await FileReaderWriter.ReadAllLinesAsync("C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server\\server.properties");
             foreach (var data in fileData)
             {
                 var index = data.IndexOf('=');
                 if (index != -1)
                 {
-                    returnValue.Add(new ServerProperty
+                    returnValue.Add(new ServerPropertys
                     {
                         Property = data.Substring(0, index),
                         Value = data.Substring(index + 1)
@@ -35,10 +35,10 @@ namespace MinecraftManager.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<bool> UpdateServerProperties([FromBody] ServerProperty property)
+        public async Task<bool> UpdateServerProperties([FromBody] ServerPropertys property)
         {
-            List<ServerProperty> serverProperties = new List<ServerProperty>();
-            var returnValue = new List<ServerProperty>();
+            List<ServerPropertys> serverProperties = new List<ServerPropertys>();
+            var returnValue = new List<ServerPropertys>();
             var currentFileLines = await GetServerPropertiesFile();
 
                 foreach (var currentProperty in currentFileLines)
@@ -51,7 +51,7 @@ namespace MinecraftManager.Controllers
             return await FileReaderWriter.WriteFileAsync("C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server\\server.properties", ToStringList(currentFileLines.ToList()));
         }
 
-        private List<string> ToStringList(List<ServerProperty> list)
+        private List<string> ToStringList(List<ServerPropertys> list)
         {
             var returnList = new List<string>();
             foreach (var testString in list)

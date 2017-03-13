@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MinecraftManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,15 +13,17 @@ namespace MinecraftManager.ServerControls
         //TODO: Add class for server arguments
         private Process _process;
         private StreamWriter _writer;
-        private StreamReader _output;
         private int processId;
+        private ServerMessages _serverMessages;
 
         public MinecraftServerControls()
         {
+            _serverMessages = new ServerMessages();
         }
 
         public void StartServer(string serverFile, string serverPath)
         {
+            _serverMessages.ServerStatus = "Starting...";
             var processInfo = new ProcessStartInfo("java", "-Xmx1024M -Xms1024M -jar " + serverFile + " nogui");
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardError = true;
@@ -39,7 +42,32 @@ namespace MinecraftManager.ServerControls
 
         void SortOutputHandler(object sender, DataReceivedEventArgs e)
         {
-            Console.WriteLine(e.Data);
+            if (e.Data != null)
+            {
+                _serverMessages.Messages.Add(e.Data);
+                switch (e.Data)
+                {
+                    case "Done":
+                        _serverMessages.ServerStatus = "Online";
+                        break;
+                    case "Stopping":
+                        _serverMessages.ServerStatus = "Offline";
+                        break;
+                }
+            }
+        }
+
+        //TODO: make this better
+        public ServerMessages GetServerOutput()
+        {
+            if (_serverMessages != null)
+            {
+                return _serverMessages;
+            }
+            else
+            {
+                return new ServerMessages();
+            }
         }
 
         private void SendCommand(string command)

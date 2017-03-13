@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MinecraftManager.Models;
 using MinecraftManager.ServerControls;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,12 @@ namespace MinecraftManager.Controllers
         public void Stop()
         {
             _serverControl.StopServer();
+        }
+
+        [HttpGet("[action]")]
+        public ServerMessages GetServerOutput()
+        {
+            return _serverControl.GetServerOutput();
         }
     }
 }

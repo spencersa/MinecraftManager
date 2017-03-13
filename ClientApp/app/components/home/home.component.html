@@ -1,4 +1,14 @@
 <h1>Minecraft Server Manager</h1>
 <p></p>
-<button (click)="startServer()" class="btn btn-primary">Start Server</button>
+<div *ngIf="serverMessages">
+    <div>
+        {{serverMessages.serverStatus}}
+    </div>
+</div>
+<button [disabled]="" (click)="startServer()" class="btn btn-primary">Start Server</button>
 <button (click)="stopServer()" class="btn btn-danger">Stop Server</button>
+<div *ngIf="serverMessages">
+    <div *ngFor="let message of serverMessages.messages">
+        {{message}}
+    </div>
+</div>

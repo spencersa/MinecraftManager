@@ -26,7 +26,6 @@ export class ServerPropertiesComponent {
     }
 
     public submitEdit(property: ServerProperty) {
-        debugger
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let body = JSON.stringify(property);
         this.http.post('/api/ServerProperties/UpdateServerProperties', body, {
