@@ -38,5 +38,20 @@ namespace MinecraftManager.Controllers
         {
             return _serverControl.GetServerOutput();
         }
+
+        [HttpPost("[action]")]
+        public bool SendCommand([FromBody] string command)
+        {
+            Exception exception;
+            try
+            {
+                _serverControl.SendCommand(command);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

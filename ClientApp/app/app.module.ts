@@ -6,6 +6,7 @@ import { NavMenuComponent } from "./components/navmenu/navmenu.component";
 import { HomeComponent } from "./components/home/home.component";
 import { ServerPropertiesComponent } from "./components/serverProperties/serverProperties.component";
 import { FormsModule } from "@angular/forms";
+import { ReversePipe } from "./components/pipes/reverse.pipe";
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -13,7 +14,8 @@ import { FormsModule } from "@angular/forms";
         AppComponent,
         NavMenuComponent,
         HomeComponent,
-        ServerPropertiesComponent
+        ServerPropertiesComponent,
+        ReversePipe
     ],
     imports: [
         UniversalModule, // must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.

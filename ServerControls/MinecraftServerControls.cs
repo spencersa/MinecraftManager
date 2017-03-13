@@ -45,14 +45,13 @@ namespace MinecraftManager.ServerControls
             if (e.Data != null)
             {
                 _serverMessages.Messages.Add(e.Data);
-                switch (e.Data)
+                if (e.Data.Contains("Done"))
                 {
-                    case "Done":
-                        _serverMessages.ServerStatus = "Online";
-                        break;
-                    case "Stopping":
-                        _serverMessages.ServerStatus = "Offline";
-                        break;
+                    _serverMessages.ServerStatus = "Online";
+                }
+                else if (e.Data.Contains("Stopping"))
+                {
+                    _serverMessages.ServerStatus = "Offline";
                 }
             }
         }
@@ -70,7 +69,7 @@ namespace MinecraftManager.ServerControls
             }
         }
 
-        private void SendCommand(string command)
+        public void SendCommand(string command)
         {
             _writer.WriteLine(command);
         }

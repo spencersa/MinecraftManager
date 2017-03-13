@@ -1,0 +1,26 @@
+﻿    .log-area{
+        max-height: 450px;
+        overflow-y:scroll;
+    }
+
+    .log-area-no-scroll{
+        max-height: 450px;
+    }
+
+    .round-boarder{
+        border-radius: 25px;
+        border: 2px solid #73AD21;
+        padding: 20px; 
+    }
+
+    .red{
+        color: red;
+    }
+
+    .yellow{
+        color: yellow;
+    }
+
+    .green{
+        color: green;
+    }

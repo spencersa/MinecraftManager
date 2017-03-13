@@ -1,14 +1,50 @@
 <h1>Minecraft Server Manager</h1>
-<p></p>
 <div *ngIf="serverMessages">
-    <div>
-        {{serverMessages.serverStatus}}
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <h3>Server Status: {{serverMessages.serverStatus}} <i class="fa fa-circle" [class.red]="serverMessages.serverStatus==='Offline'" [class.yellow]="serverMessages.serverStatus==='Starting...'" [class.green]="serverMessages.serverStatus==='Online'"></i></h3>
+            </div>
+        </div>
     </div>
-</div>
-<button [disabled]="" (click)="startServer()" class="btn btn-primary">Start Server</button>
-<button (click)="stopServer()" class="btn btn-danger">Stop Server</button>
-<div *ngIf="serverMessages">
-    <div *ngFor="let message of serverMessages.messages">
-        {{message}}
+    <div class="row">
+        <div class="col-xs-12">
+            <button [disabled]="serverMessages.serverStatus==='Starting...' || serverMessages.serverStatus==='Online'" (click)="startServer()" class="btn btn-primary">Start Server</button>
+            <button [disabled]="serverMessages.serverStatus==='Offline'" (click)="stopServer()" class="btn btn-danger">Stop Server</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Server Log</h3>
+            <div [hidden]="serverMessages.messages.length == 0" class="round-boarder">
+                <div class="log-area">
+                    <table *ngFor="let message of serverMessages.messages | reverse">
+                        <tbody>
+                            <tr>
+                                <td>{{message}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div [hidden]="serverMessages.messages.length > 0" class="round-boarder">
+                <div class="log-area-no-scroll">
+                    No server messages
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-6">
+            <form (ngSubmit)="sendCommand(command)">
+                <div class="input-group">
+                    <input [disabled]="serverMessages.serverStatus==='Offline'" type="text" class="form-control" placeholder="" [ngModelOptions]="{standalone: true}"  [(ngModel)]="command">
+                    <span class="input-group-btn">
+                        <button [disabled]="serverMessages.serverStatus==='Offline' || isSendingCommand" class="btn btn-default" type="submit">Send</button>
+                    </span>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

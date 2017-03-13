@@ -4,13 +4,18 @@ import { Observable } from 'rxjs/Rx';
 
 @Component({
     selector: 'home',
-    template: require('./home.component.html')
+    template: require('./home.component.html'),
+    styles: [require('./home.component.css')]
 })
 export class HomeComponent implements OnInit {
     public http: Http;
     public serverMessages: serverMessage;
+    public isSendingCommand: boolean;
+    public command: string;
+
     constructor(_http: Http) {
         this.http = _http;
+        this.isSendingCommand = false;
     }
 
     ngOnInit() {
@@ -25,6 +30,23 @@ export class HomeComponent implements OnInit {
     public stopServer() {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         this.http.get('/api/Server/Stop').subscribe(result => {});
+    }
+
+    public sendCommand(command: string) {
+        this.isSendingCommand = true;
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let body = JSON.stringify(command);
+        this.http.post('/api/Server/SendCommand', body, {
+            headers: headers
+        })
+            .subscribe(
+            data => console.log(data),
+            err => console.log("TODO: add error logging"),
+            () => {
+                this.isSendingCommand = false;
+                this.command = "";
+            }
+            );
     }
 
     initializePolling() {
