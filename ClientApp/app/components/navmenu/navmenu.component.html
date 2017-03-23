@@ -17,9 +17,14 @@
                         <i class='fa fa-home'></i> Home
                     </a>
                 </li>
+                <li [routerLinkActive]="['Manage-Players']">
+                    <a [routerLink]="['/manage-players']">
+                        <i class="fa fa-users" aria-hidden="true"></i> Manage Players
+                    </a>
+                </li>
                 <li [routerLinkActive]="['server-properties']">
                     <a [routerLink]="['/server-properties']">
-                        <i class="fa fa-calculator" aria-hidden="true"></i> Server Properties
+                        <i class="fa fa-server" aria-hidden="true"></i> Server Properties
                     </a>
                 </li>
             </ul>

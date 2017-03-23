@@ -15,10 +15,12 @@ namespace MinecraftManager.ServerControls
         private StreamWriter _writer;
         private int processId;
         private ServerMessages _serverMessages;
+        private List<Player> _players;
 
         public MinecraftServerControls()
         {
             _serverMessages = new ServerMessages();
+            _players = new List<Player>();
         }
 
         public void StartServer(string serverFile, string serverPath)
@@ -34,39 +36,24 @@ namespace MinecraftManager.ServerControls
             _process = Process.Start(processInfo);
             _writer = _process.StandardInput;
             processId = _process.Id;
-            _process.OutputDataReceived += new DataReceivedEventHandler(SortOutputHandler);
+            _process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             _process.BeginOutputReadLine();
             _process.BeginErrorReadLine();
             _process.WaitForExit();
         }
 
-        void SortOutputHandler(object sender, DataReceivedEventArgs e)
+        void OutputHandler(object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null)
             {
                 _serverMessages.Messages.Add(e.Data);
-                if (e.Data.Contains("Done"))
-                {
-                    _serverMessages.ServerStatus = "Online";
-                }
-                else if (e.Data.Contains("Stopping"))
-                {
-                    _serverMessages.ServerStatus = "Offline";
-                }
+                HandleOutput(e.Data);
             }
         }
 
-        //TODO: make this better
         public ServerMessages GetServerOutput()
         {
-            if (_serverMessages != null)
-            {
-                return _serverMessages;
-            }
-            else
-            {
-                return new ServerMessages();
-            }
+            return _serverMessages;
         }
 
         public void SendCommand(string command)
@@ -74,6 +61,43 @@ namespace MinecraftManager.ServerControls
             _writer.WriteLine(command);
         }
 
+        public void HandleOutput(string output)
+        {
+            UpdateServerStatus(output);
+            UpdatePlayersList(output);
+        }
+
+        public void UpdatePlayersList(string output)
+        {
+            if (output.Contains("[User Authenticator #1/INFO]"))
+            {
+                const string playerNamePrefix = "player ";
+                var playerNameIndex = output.IndexOf(playerNamePrefix);
+                _players.Add(new Player
+                {
+                    Id = Guid.Parse(
+                        output.Substring(playerNameIndex + playerNamePrefix.Length)
+                        .Split(new char[0])[2]),
+                    UserName = output.Substring(playerNameIndex + playerNamePrefix.Length)
+                        .Split(new char[0])[0]
+                });
+            }
+        }
+
+        public void UpdateServerStatus(string output)
+        {
+            if (_serverMessages.ServerStatus == "Starting..." && output.Contains("Done"))
+            {
+                _serverMessages.ServerStatus = "Online";
+            }
+            else if (_serverMessages.ServerStatus == "Online" && output.Contains("Stopping"))
+            {
+                _serverMessages.ServerStatus = "Offline";
+            }
+        }
+
         public void StopServer() => SendCommand("stop");
+
+        public void RestartServer() => SendCommand("restart");
     }
 }

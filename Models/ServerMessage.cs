@@ -14,5 +14,6 @@ namespace MinecraftManager.Models
         }
         public List<string> Messages { get; set; }
         public string ServerStatus { get; set; }
+        public List<Player> Players { get; set; }
     }
 }

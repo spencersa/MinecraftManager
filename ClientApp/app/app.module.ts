@@ -7,6 +7,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { ServerPropertiesComponent } from "./components/serverProperties/serverProperties.component";
 import { FormsModule } from "@angular/forms";
 import { ReversePipe } from "./components/pipes/reverse.pipe";
+import { ManagePlayersComponent} from "./components/managePlayers/managePlayers.component"
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -15,6 +16,7 @@ import { ReversePipe } from "./components/pipes/reverse.pipe";
         NavMenuComponent,
         HomeComponent,
         ServerPropertiesComponent,
+        ManagePlayersComponent,
         ReversePipe
     ],
     imports: [
@@ -24,6 +26,7 @@ import { ReversePipe } from "./components/pipes/reverse.pipe";
             { path: "", redirectTo: "home", pathMatch: "full" },
             { path: "home", component: HomeComponent },
             { path: "server-properties", component: ServerPropertiesComponent },
+            { path: "manage-players", component: ManagePlayersComponent },
             { path: "**", redirectTo: "home" }
         ])
     ]

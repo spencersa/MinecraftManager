@@ -27,6 +27,11 @@ export class HomeComponent implements OnInit {
         this.http.get('/api/Server/Start').subscribe(result => {});
     }
 
+    public restartServer() {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        this.http.get('/api/Server/Restart').subscribe(result => { });
+    }
+
     public stopServer() {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         this.http.get('/api/Server/Stop').subscribe(result => {});

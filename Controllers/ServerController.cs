@@ -34,6 +34,12 @@ namespace MinecraftManager.Controllers
         }
 
         [HttpGet("[action]")]
+        public void Restart()
+        {
+            _serverControl.RestartServer();
+        }
+
+        [HttpGet("[action]")]
         public ServerMessages GetServerOutput()
         {
             return _serverControl.GetServerOutput();

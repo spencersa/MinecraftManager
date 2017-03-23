@@ -11,6 +11,7 @@ using MinecraftManager.Models;
 namespace MinecraftManager.Controllers
 {
     //TODO: make file path configurable
+    //TODO: Create and inject a new service into this controller
     [Route("api/[controller]")]
     public class ServerPropertiesController : Controller
     {
