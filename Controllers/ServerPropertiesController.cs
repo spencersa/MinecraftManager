@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using MinecraftManager.Models;
+using MinecraftManager.ServerControls;
 
 namespace MinecraftManager.Controllers
 {
@@ -19,7 +20,7 @@ namespace MinecraftManager.Controllers
         public async Task<IEnumerable<ServerPropertys>> GetServerPropertiesFile()
         {
             var returnValue = new List<ServerPropertys>();
-            var fileData = await FileReaderWriter.ReadAllLinesAsync("C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server\\server.properties");
+            var fileData = await FileReaderWriter.ReadAllLinesAsync("C:\\MinecraftData\\server.properties");
             foreach (var data in fileData)
             {
                 var index = data.IndexOf('=');
@@ -49,7 +50,7 @@ namespace MinecraftManager.Controllers
                         currentProperty.Value = property.Value;
                     }
                 }
-            return await FileReaderWriter.WriteFileAsync("C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server\\server.properties", ToStringList(currentFileLines.ToList()));
+            return await FileReaderWriter.WriteFileAsync("C:\\MinecraftData\\server.properties", ToStringList(currentFileLines.ToList()));
         }
 
         private List<string> ToStringList(List<ServerPropertys> list)

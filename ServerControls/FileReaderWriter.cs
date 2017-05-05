@@ -1,11 +1,14 @@
-﻿using System;
+﻿using MinecraftManager.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MinecraftManager.Controllers
+namespace MinecraftManager.ServerControls
 {
     public static class FileReaderWriter
     {
@@ -30,9 +33,6 @@ namespace MinecraftManager.Controllers
         public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding)
         {
             var lines = new List<string>();
-
-            // Open the FileStream with the same FileMode, FileAccess
-            // and FileShare as a call to File.OpenText would've done.
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, DefaultBufferSize, DefaultOptions))
             {
                 using (var reader = new StreamReader(stream, encoding))
@@ -44,14 +44,11 @@ namespace MinecraftManager.Controllers
                     }
                 }
             }
-
             return lines.ToArray();
         }
 
-        public static Task<bool> WriteFileAsync(string path, List<string> lines)
-        {
-            return WriteFileAsync(path, Encoding.UTF8, lines);
-        }
+        public async static Task<bool> WriteFileAsync(string path, List<string> lines)
+            => await WriteFileAsync(path, Encoding.UTF8, lines);
 
         public static async Task<bool> WriteFileAsync(string path, Encoding encoding, List<string> lines)
         {
@@ -75,5 +72,10 @@ namespace MinecraftManager.Controllers
             }
         }
 
+        public static dynamic ReadJsonFile(string path, bool isArray = false)
+        {
+            var text = File.ReadAllText(path);
+            return JsonConvert.DeserializeObject<dynamic>(text);
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace MinecraftManager.Controllers
     [Route("api/[controller]")]
     public class ServerController : Controller
     {
-        string serverPath = "C:\\Users\\Holy Shit Awesome\\Desktop\\Minecraft Server";
+        string serverPath = "C:\\MinecraftData";
         string serverFile = "minecraft_server.1.11.2.jar";
 
         private readonly MinecraftServerControls _serverControl;
