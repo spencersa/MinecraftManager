@@ -18,23 +18,27 @@ namespace MinecraftManager.Controllers
         }
 
         [HttpGet("[action]")]
+        public async Task<IEnumerable<BannedIp>> GetBannedIps()
+        {
+            return (await FileReaderWriter.ReadJsonFileAsync("C:\\MinecraftData\\banned-ips.json")).ToObject<IEnumerable<BannedIp>>();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<BannedPlayer>> GetBannedPlayers()
+        {
+            return (await FileReaderWriter.ReadJsonFileAsync("C:\\MinecraftData\\banned-players.json")).ToObject<IEnumerable<BannedPlayer>>();
+        }
+
+        [HttpGet("[action]")]
         public async Task<IEnumerable<UserCache>> GetUserCache()
         {
-            var returnValue = new List<UserCache>();
-            var fileData = await FileReaderWriter.ReadAllLinesAsync("C:\\MinecraftData\\usercache.json");
-            foreach (var data in fileData)
-            {
-                var index = data.IndexOf('=');
-                if (index != -1)
-                {
-                    returnValue.Add(new UserCache
-                    {
-                        //Id = data.Substring(0, index),
-                        //UserName = data.Substring(index + 1)
-                    });
-                }
-            }
-            return returnValue;
+            return (await FileReaderWriter.ReadJsonFileAsync("C:\\MinecraftData\\usercache.json")).ToObject<IEnumerable<UserCache>>();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<Player>> GetWhiteList()
+        {
+            return (await FileReaderWriter.ReadJsonFileAsync("C:\\MinecraftData\\whitelist.json")).ToObject<IEnumerable<Player>>();
         }
     }
 }

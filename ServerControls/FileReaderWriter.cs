@@ -72,10 +72,13 @@ namespace MinecraftManager.ServerControls
             }
         }
 
-        public static dynamic ReadJsonFile(string path, bool isArray = false)
+        public async static Task<dynamic> ReadJsonFileAsync(string path, bool isArray = false)
         {
-            var text = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<dynamic>(text);
+            using (var reader = File.OpenText(path))
+            {
+                var fileText = await reader.ReadToEndAsync();
+                return JsonConvert.DeserializeObject<dynamic>(fileText);
+            }
         }
     }
 }

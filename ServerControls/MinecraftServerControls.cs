@@ -75,10 +75,10 @@ namespace MinecraftManager.ServerControls
                 var playerNameIndex = output.IndexOf(playerNamePrefix);
                 _players.Add(new Player
                 {
-                    Id = Guid.Parse(
+                    Uuid = Guid.Parse(
                         output.Substring(playerNameIndex + playerNamePrefix.Length)
                         .Split(new char[0])[2]),
-                    UserName = output.Substring(playerNameIndex + playerNamePrefix.Length)
+                    Name = output.Substring(playerNameIndex + playerNamePrefix.Length)
                         .Split(new char[0])[0]
                 });
             }

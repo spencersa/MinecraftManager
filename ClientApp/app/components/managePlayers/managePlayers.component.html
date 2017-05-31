@@ -1,1 +1,16 @@
 ﻿<h1>Manage Players</h1>
+<tr *ngFor="let ip of bannedIps">
+    <td>{{ip.ip}}</td>
+</tr>
+<br />
+<tr *ngFor="let player of bannedPlayers">
+    <td>{{player.name}}</td>
+</tr>
+<br />
+<tr *ngFor="let user of userCache">
+    <td>{{user.name}}</td>
+</tr>
+<br />
+<tr *ngFor="let player of players">
+    <td>{{player.name}}</td>
+</tr>

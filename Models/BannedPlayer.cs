@@ -7,7 +7,7 @@ namespace MinecraftManager.Models
 {
     public class BannedPlayer : BanInfo
     {
-        public Guid Id { get; set; }
-        public string UserName { get; set; }
+        public Guid Uuid { get; set; }
+        public string Name { get; set; }
     }
 }
