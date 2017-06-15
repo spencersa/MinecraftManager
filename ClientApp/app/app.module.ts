@@ -7,7 +7,8 @@ import { HomeComponent } from "./components/home/home.component";
 import { ServerPropertiesComponent } from "./components/serverProperties/serverProperties.component";
 import { FormsModule } from "@angular/forms";
 import { ReversePipe } from "./components/pipes/reverse.pipe";
-import { ManagePlayersComponent} from "./components/managePlayers/managePlayers.component"
+import { ManagePlayersComponent } from "./components/managePlayers/managePlayers.component";
+import { ModalComponent } from "./components/shared/modal.component";
 
 @NgModule({
     bootstrap: [ AppComponent ],
@@ -17,7 +18,8 @@ import { ManagePlayersComponent} from "./components/managePlayers/managePlayers.
         HomeComponent,
         ServerPropertiesComponent,
         ManagePlayersComponent,
-        ReversePipe
+        ReversePipe,
+        ModalComponent
     ],
     imports: [
         UniversalModule, // must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.

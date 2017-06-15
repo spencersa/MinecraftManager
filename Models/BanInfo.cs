@@ -7,7 +7,8 @@ namespace MinecraftManager.Models
 {
     public class BanInfo
     {
-        public string Created { get; set; }
+        public DateTime Created { get; set; }
+        public string CreatedFormatted { get; set; }
         //TODO: Make this an enum?
         public string Source { get; set; }
         //TODO: can this be a date? Right now file says "forever"

@@ -11,6 +11,9 @@ export class ManagePlayersComponent {
     public userCache: Array<UserCache>;
     public players: Array<Player>;
     public http: Http;
+
+    private addingIp: boolean;
+
     constructor(_http: Http) {
         this.http = _http;
         this.http.get('/api/Players/GetBannedIps').subscribe(result => {
@@ -26,14 +29,23 @@ export class ManagePlayersComponent {
             this.players = result.json();
         });
     }
+
+    public toggleAddIp() {
+        this.addingIp = !this.addingIp;
+        var newIp = new BannedIp();
+        newIp.IsEditing = true;
+        this.bannedIps.push(newIp);
+    }
 }
 
-interface BannedIp {
-    Uuid: string;
-    Created: string;
+class BannedIp {
+    Ip: string;
+    Created: Date;
+    CreatedFormatted: string;
     Source: string;
     string: boolean;
     Reason: string;
+    IsEditing: boolean;
 }
 
 interface BannedPlayer {

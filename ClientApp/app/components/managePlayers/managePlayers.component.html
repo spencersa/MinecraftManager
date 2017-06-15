@@ -1,16 +1,114 @@
 ﻿<h1>Manage Players</h1>
-<tr *ngFor="let ip of bannedIps">
-    <td>{{ip.ip}}</td>
-</tr>
+
+<button type="button" (click)="modal1.show()">test</button>
+<app-modal #modal1>
+    <div class="app-modal-header">
+        header
+    </div>
+    <div class="app-modal-body">
+        Whatever content you like, form fields, anything
+        <input type="text">
+    </div>
+    <div class="app-modal-footer">
+        <button type="button" class="btn btn-default" (click)="modal1.hide()">Close</button>
+        <button type="button" class="btn btn-default" (click)="modal2.show()">Show modal 2</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+</app-modal>
+
+<div class="col-sm-6">
+    <div class="h3">Banned Ips</div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Created</th>
+                <th>Source</th>
+                <th>Expires</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ip of bannedIps">
+                <td>{{ip.ip}}</td>
+                <td>{{ip.createdFormatted}}</td>
+                <td>{{ip.source}}</td>
+                <td>{{ip.expires}}</td>
+                <td>{{ip.reason}}</td>
+            </tr>
+            <tr *ngIf="!addingIp">
+                <td colspan="5">
+                    <form (ngSubmit)="toggleAddIp()">
+                        <button class="btn btn-default" type="submit">Add Banned Ip <i class="fa fa-plus" aria-hidden="true"></i></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-sm-6">
+    <div class="h3">Banned Players</div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>UUID</th>
+                <th>Created</th>
+                <th>Source</th>
+                <th>Expires</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of bannedPlayers">
+                <td>{{player.name}}</td>
+                <td>{{player.uuid}}</td>
+                <td>{{player.created}}</td>
+                <td>{{player.source}}</td>
+                <td>{{player.expires}}</td>
+                <td>{{player.reason}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 <br />
-<tr *ngFor="let player of bannedPlayers">
-    <td>{{player.name}}</td>
-</tr>
-<br />
-<tr *ngFor="let user of userCache">
-    <td>{{user.name}}</td>
-</tr>
-<br />
-<tr *ngFor="let player of players">
-    <td>{{player.name}}</td>
-</tr>
+
+<div class="col-sm-6">
+    <div class="h3">White List</div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>UUID</th>
+                <th>Expires On</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of userCache">
+                <td>{{user.name}}</td>
+                <td>{{user.uuid}}</td>
+                <td>{{user.expiresOn}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-sm-6">
+    <div class="h3">User Cache</div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>UUID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of players">
+                <td>{{player.name}}</td>
+                <td>{{player.uuid}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -20,7 +20,11 @@ namespace MinecraftManager.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<BannedIp>> GetBannedIps()
         {
-            return (await FileReaderWriter.ReadJsonFileAsync("C:\\MinecraftData\\banned-ips.json")).ToObject<IEnumerable<BannedIp>>();
+            IEnumerable<BannedIp> bannedIps = (await FileReaderWriter.ReadJsonFileAsync("C:\\MinecraftData\\banned-ips.json")).ToObject<IEnumerable<BannedIp>>();
+            return bannedIps.Select(x => {
+                x.CreatedFormatted = string.Format("{0:G}", x.Created);
+                return x;
+            }).ToList();
         }
 
         [HttpGet("[action]")]
